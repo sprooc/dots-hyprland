@@ -20,7 +20,11 @@ Singleton {
     })
 
     function checkUpdates() {
-        root.data.updating = true;
+        root.data = {
+            updateCount: root.data.updateCount,
+            updating: true,
+            lastCheck: root.data.lastCheck
+        };
         // Use yay to check for AUR updates
         let command = "yay -Qu | wc -l";
         fetcher.command[2] = command;
@@ -60,13 +64,21 @@ Singleton {
                     console.info(`[AurUpdates] Found ${count} available updates`);
                 } catch (e) {
                     console.error(`[AurUpdates] ${e.message}`);
-                    root.data.updating = false;
+                    root.data = {
+                        updateCount: root.data.updateCount,
+                        updating: false,
+                        lastCheck: root.data.lastCheck
+                    };
                 }
             }
         }
         
         onExited: {
-            root.data.updating = false;
+            root.data = {
+                updateCount: root.data.updateCount,
+                updating: false,
+                lastCheck: root.data.lastCheck
+            };
         }
     }
 

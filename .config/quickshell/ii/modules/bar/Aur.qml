@@ -20,7 +20,6 @@ MouseArea {
         anchors.centerIn: parent
         
         MaterialSymbol {
-            fill: 0
             text: AurUpdates.data?.updating ? "sync" : 
                   (AurUpdates.data?.updateCount > 0 ? "system_update" : "check_circle")
             iconSize: Appearance.font.pixelSize.large
@@ -28,6 +27,8 @@ MouseArea {
                    Appearance.colors.colAccent : 
                    Appearance.colors.colOnLayer1
             Layout.alignment: Qt.AlignVCenter
+            
+            rotation: AurUpdates.data?.updating ? rotation : 0
             
             RotationAnimation on rotation {
                 running: AurUpdates.data?.updating

@@ -240,16 +240,6 @@ Item { // Bar content region
                     Layout.alignment: Qt.AlignVCenter
                 }
 
-                // AUR Updates
-                Loader {
-                    active: Config.options.bar.aur.enable
-                    sourceComponent: BarGroup {
-                        implicitHeight: Appearance.sizes.baseBarHeight
-                        Aur {}
-                    }
-                    Layout.alignment: Qt.AlignVCenter
-                }
-
                 BatteryIndicator {
                     visible: (root.useShortenedForm < 2 && UPower.displayDevice.isLaptopBattery)
                     Layout.alignment: Qt.AlignVCenter
@@ -442,6 +432,16 @@ Item { // Bar content region
                     Layout.fillHeight: true
                 }
 
+                // AUR Updates
+                Loader {
+                    active: Config.options.bar.aur.enable
+                    sourceComponent: BarGroup {
+                        implicitHeight: Appearance.sizes.baseBarHeight
+                        Aur {}
+                    }
+                    Layout.alignment: Qt.AlignVCenter
+                }
+                
                 // Weather
                 Loader {
                     Layout.leftMargin: 8
@@ -450,8 +450,10 @@ Item { // Bar content region
                     sourceComponent: BarGroup {
                         implicitHeight: Appearance.sizes.baseBarHeight
                         WeatherBar {}
+                        
                     }
                 }
+
             }
         }
     }
