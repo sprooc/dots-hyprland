@@ -1,5 +1,6 @@
 import QtQuick
 import QtWebEngine
+import QtCore
 import qs.modules.common
 import qs.modules.common.widgets
 import qs
@@ -33,7 +34,7 @@ Item {
                         id: persistentProfile
                         persistentCookiesPolicy: WebEngineProfile.ForcePersistentCookies
                         storageName: "chatProfile"
-                        persistentStoragePath: StandardPaths.writableLocation(StandardPaths.AppDataLocation) + "/chat"
+                        // persistentStoragePath: StandardPaths.writableLocation(StandardPaths.AppDataLocation) + "/chat"
                         offTheRecord: false
                     }
 

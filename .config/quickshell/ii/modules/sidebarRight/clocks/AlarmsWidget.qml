@@ -26,7 +26,15 @@ Item {
             try {
                 var loadedAlarms = JSON.parse(alarmsFileView.text());
                 if (Array.isArray(loadedAlarms)) {
-                    alarms = loadedAlarms;
+                    // Ensure each alarm has all required properties
+                    alarms = loadedAlarms.map(alarm => ({
+                        hour: alarm.hour || 12,
+                        minute: alarm.minute || 0,
+                        ampm: alarm.ampm || "AM",
+                        name: alarm.name || "",
+                        enabled: alarm.enabled !== undefined ? alarm.enabled : true,
+                        repeatDays: Array.isArray(alarm.repeatDays) ? alarm.repeatDays : []
+                    }));
                 }
             } catch (e) {
                 console.log("Failed to parse alarms file:", e);
@@ -94,7 +102,7 @@ Item {
         
         for (var i = 0; i < alarms.length; i++) {
             var alarm = alarms[i]
-            if (!alarm.enabled) continue
+            if (!alarm || !alarm.enabled) continue
             
             var alarmHour = alarm.hour
             if (alarm.ampm === "PM" && alarmHour !== 12) {
@@ -104,7 +112,7 @@ Item {
             }
             
             if (alarmHour === currentHour && alarm.minute === currentMinute && now.getSeconds() === 0) {
-                if (alarm.repeatDays.length === 0 || alarm.repeatDays.includes(currentDay)) {
+                if (!alarm.repeatDays || alarm.repeatDays.length === 0 || alarm.repeatDays.includes(currentDay)) {
                     triggerAlarm(alarm)
                 }
             }
@@ -243,23 +251,23 @@ Item {
                                         spacing: 4
 
                                         StyledText {
-                                            text: formatTime(alarms[index].hour, alarms[index].minute, alarms[index].ampm)
+                                            text: alarms[index] ? formatTime(alarms[index].hour, alarms[index].minute, alarms[index].ampm) : ""
                                             font.family: Appearance.font.family.monospace
                                             font.pixelSize: Appearance.font.pixelSize.larger
-                                            color: alarms[index].enabled ? Appearance.colors.colOnLayer2 : Appearance.colors.colOnLayer2Disabled
+                                            color: (alarms[index] && alarms[index].enabled) ? Appearance.colors.colOnLayer2 : Appearance.colors.colOnLayer2Disabled
                                         }
 
                                         StyledText {
-                                            text: alarms[index].name || "Alarm"
+                                            text: (alarms[index] && alarms[index].name) ? alarms[index].name : "Alarm"
                                             font.pixelSize: Appearance.font.pixelSize.small
                                             color: Appearance.colors.colSubtext
-                                            visible: alarms[index].name !== ""
+                                            visible: alarms[index] && alarms[index].name !== ""
                                         }
 
                                         // Repeat days display
                                         RowLayout {
                                             spacing: 4
-                                            visible: alarms[index].repeatDays && alarms[index].repeatDays.length > 0
+                                            visible: alarms[index] && alarms[index].repeatDays && alarms[index].repeatDays.length > 0
                                             
                                             property var dayLabels: ["S", "M", "T", "W", "T", "F", "S"]
                                             
@@ -269,17 +277,17 @@ Item {
                                                     width: 16
                                                     height: 16
                                                     radius: 8
-                                                    color: alarms[index].repeatDays && alarms[index].repeatDays.includes(index) ? 
+                                                    color: (alarms[index] && alarms[index].repeatDays && alarms[index].repeatDays.includes(index)) ? 
                                                         Appearance.colors.colPrimary : "transparent"
                                                     border.width: 1
-                                                    border.color: alarms[index].repeatDays && alarms[index].repeatDays.includes(index) ? 
+                                                    border.color: (alarms[index] && alarms[index].repeatDays && alarms[index].repeatDays.includes(index)) ? 
                                                         Appearance.colors.colPrimary : Appearance.colors.colOutlineVariant
                                                     
                                                     StyledText {
                                                         text: parent.parent.dayLabels[index]
                                                         anchors.centerIn: parent
                                                         font.pixelSize: 8
-                                                        color: alarms[index].repeatDays && alarms[index].repeatDays.includes(index) ? 
+                                                        color: (alarms[index] && alarms[index].repeatDays && alarms[index].repeatDays.includes(index)) ? 
                                                             Appearance.m3colors.m3onPrimary : Appearance.colors.colSubtext
                                                     }
                                                 }
@@ -292,11 +300,13 @@ Item {
                                         implicitWidth: 44
                                         implicitHeight: 24
                                         buttonRadius: 12
-                                        colBackground: alarms[index].enabled ? Appearance.colors.colPrimary : Appearance.colors.colOutlineVariant
+                                        colBackground: (alarms[index] && alarms[index].enabled) ? Appearance.colors.colPrimary : Appearance.colors.colOutlineVariant
                                         onClicked: {
-                                            alarms[index].enabled = !alarms[index].enabled
-                                            alarms = alarms.slice()
-                                            saveAlarms()
+                                            if (alarms[index]) {
+                                                alarms[index].enabled = !alarms[index].enabled
+                                                alarms = alarms.slice()
+                                                saveAlarms()
+                                            }
                                         }
 
                                         contentItem: Rectangle {
@@ -304,7 +314,7 @@ Item {
                                             height: 20
                                             radius: 10
                                             color: Appearance.colors.colLayer2
-                                            x: alarms[index].enabled ? parent.width - width - 2 : 2
+                                            x: (alarms[index] && alarms[index].enabled) ? parent.width - width - 2 : 2
                                             y: 2
 
                                             Behavior on x {

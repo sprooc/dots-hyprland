@@ -245,6 +245,27 @@ ContentPage {
                 }
             }
         }
+
+        ContentSubsection {
+            title: Translation.tr("AUR Updates")
+            ConfigSwitch {
+                text: Translation.tr("Enable")
+                checked: Config.options.bar.aur.enable
+                onCheckedChanged: {
+                    Config.options.bar.aur.enable = checked;
+                }
+            }
+            ConfigSpinBox {
+                text: Translation.tr("Check interval (minutes)")
+                value: Config.options.bar.aur.checkInterval
+                from: 5
+                to: 120
+                stepSize: 5
+                onValueChanged: {
+                    Config.options.bar.aur.checkInterval = value;
+                }
+            }
+        }
     }
 
     ContentSection {
