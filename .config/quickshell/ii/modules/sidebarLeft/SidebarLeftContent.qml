@@ -13,9 +13,10 @@ Item {
     required property var scopeRoot
     anchors.fill: parent
     property var tabButtonList: [
+	{"icon": "chat_bubble", "name": Translation.tr("Chat")},
         ...(Config.options.policies.ai !== 0 ? [{"icon": "neurology", "name": Translation.tr("Intelligence")}] : []),
         {"icon": "translate", "name": Translation.tr("Translator")},
-        ...(Config.options.policies.weeb === 1 ? [{"icon": "bookmark_heart", "name": Translation.tr("Anime")}] : [])
+	...(Config.options.policies.weeb === 1 ? [{"icon": "bookmark_heart", "name": Translation.tr("Anime")}] : []),
     ]
     property int selectedTab: 0
 
@@ -83,12 +84,17 @@ Item {
             }
 
             contentChildren: [
+		        webChat.createObject(),
                 ...(Config.options.policies.ai !== 0 ? [aiChat.createObject()] : []),
                 translator.createObject(),
                 ...(Config.options.policies.weeb === 0 ? [] : [anime.createObject()])
             ]
         }
 
+	Component {
+	    id: webChat
+	    WebChat {}
+    	}
         Component {
             id: aiChat
             AiChat {}

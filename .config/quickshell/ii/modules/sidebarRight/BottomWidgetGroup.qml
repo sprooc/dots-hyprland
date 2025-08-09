@@ -4,6 +4,7 @@ import qs
 import qs.services
 import "./calendar"
 import "./todo"
+import "./clocks"
 import QtQuick
 import QtQuick.Layouts
 
@@ -16,6 +17,7 @@ Rectangle {
     property int selectedTab: Persistent.states.sidebar.bottomGroup.tab
     property bool collapsed: Persistent.states.sidebar.bottomGroup.collapsed
     property var tabs: [
+        {"type": "clock", "name": Translation.tr("Clock"), "icon": "alarm", "widget": clocksWidget}, 
         {"type": "calendar", "name": Translation.tr("Calendar"), "icon": "calendar_month", "widget": calendarWidget}, 
         {"type": "todo", "name": Translation.tr("To Do"), "icon": "done_outline", "widget": todoWidget}
     ]
@@ -219,6 +221,17 @@ Rectangle {
                 }
             }
         }
+    }
+
+    // Stopwatch
+    Component {
+        id: clocksWidget
+
+        ClocksWidget {
+            anchors.fill: parent
+            anchors.margins: 5
+        }
+
     }
 
     // Calendar component
