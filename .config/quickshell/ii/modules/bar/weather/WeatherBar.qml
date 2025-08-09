@@ -8,7 +8,7 @@ import QtQuick.Layouts
 
 MouseArea {
     id: root
-    property real margin: 10
+    property real margin: 0
     property bool hovered: false
     implicitWidth: rowLayout.implicitWidth + margin * 2
     implicitHeight: rowLayout.implicitHeight
