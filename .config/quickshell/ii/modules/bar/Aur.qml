@@ -119,29 +119,29 @@ MouseArea {
                         width: parent.width
                     }
 
-                    Row {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        spacing: 8
+                    // Row {
+                    //     anchors.horizontalCenter: parent.horizontalCenter
+                    //     spacing: 8
                         
-                        RippleButton {
-                            text: "Refresh"
-                            implicitWidth: 80
-                            implicitHeight: 32
-                            onClicked: AurUpdates.checkUpdates()
-                            enabled: !AurUpdates.data?.updating
-                        }
+                    //     RippleButton {
+                    //         text: "Refresh"
+                    //         implicitWidth: 80
+                    //         implicitHeight: 32
+                    //         onClicked: AurUpdates.checkUpdates()
+                    //         enabled: !AurUpdates.data?.updating
+                    //     }
                         
-                        RippleButton {
-                            text: "Update All"
-                            implicitWidth: 80
-                            implicitHeight: 32
-                            visible: AurUpdates.data?.updateCount > 0
-                            onClicked: {
-                                // Open terminal and run yay -Syu
-                                Quickshell.execDetached(["kitty", "-e", "yay", "-Syu"])
-                            }
-                        }
-                    }
+                    //     RippleButton {
+                    //         text: "Update All"
+                    //         implicitWidth: 80
+                    //         implicitHeight: 32
+                    //         visible: AurUpdates.data?.updateCount > 0
+                    //         onClicked: {
+                    //             // Open terminal and run yay -Syu
+                    //             Quickshell.execDetached(["kitty", "-e", "yay", "-Syu"])
+                    //         }
+                    //     }
+                    // }
                 }
             }
         }
