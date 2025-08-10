@@ -151,6 +151,7 @@ MouseArea {
         if (AurUpdates.data?.updateCount > 0) {
             // Double-click to update
             Quickshell.execDetached(["kitty", "-e", "yay", "-Syu"])
+            AurUpdates.checkUpdates()
         } else {
             // Single click to refresh
             AurUpdates.checkUpdates()
