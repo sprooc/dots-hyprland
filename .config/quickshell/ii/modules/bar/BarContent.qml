@@ -431,16 +431,6 @@ Item { // Bar content region
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                 }
-
-                // AUR Updates
-                Loader {
-                    active: Config.options.bar.aur.enable
-                    sourceComponent: BarGroup {
-                        implicitHeight: Appearance.sizes.baseBarHeight
-                        Aur {}
-                    }
-                    Layout.alignment: Qt.AlignVCenter
-                }
                 
                 // Weather
                 Loader {
@@ -454,6 +444,15 @@ Item { // Bar content region
                     }
                 }
 
+                // AUR Updates
+                Loader {
+                    active: Config.options.bar.aur.enable
+                    sourceComponent: BarGroup {
+                        implicitHeight: Appearance.sizes.baseBarHeight
+                        Aur {}
+                    }
+                    Layout.alignment: Qt.AlignVCenter
+                }
             }
         }
     }

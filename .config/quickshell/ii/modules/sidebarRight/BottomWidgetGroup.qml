@@ -5,7 +5,7 @@ import qs.services
 import "./calendar"
 import "./todo"
 import "./pomodoro"
-import "./clocks"
+// import "./clocks"
 import QtQuick
 import QtQuick.Layouts
 
@@ -18,7 +18,7 @@ Rectangle {
     property int selectedTab: Persistent.states.sidebar.bottomGroup.tab
     property bool collapsed: Persistent.states.sidebar.bottomGroup.collapsed
     property var tabs: [
-        {"type": "clock", "name": Translation.tr("Clock"), "icon": "alarm", "widget": clocksWidget}, 
+        // {"type": "clock", "name": Translation.tr("Clock"), "icon": "alarm", "widget": clocksWidget}, 
         {"type": "calendar", "name": Translation.tr("Calendar"), "icon": "calendar_month", "widget": calendarWidget}, 
         {"type": "todo", "name": Translation.tr("To Do"), "icon": "done_outline", "widget": todoWidget},
         {"type": "timer", "name": Translation.tr("Timer"), "icon": "schedule", "widget": pomodoroWidget},
@@ -225,16 +225,16 @@ Rectangle {
         }
     }
 
-    // Stopwatch
-    Component {
-        id: clocksWidget
+    // // Clocks component
+    // Component {
+    //     id: clocksWidget
 
-        ClocksWidget {
-            anchors.fill: parent
-            anchors.margins: 5
-        }
+    //     ClocksWidget {
+    //         anchors.fill: parent
+    //         anchors.margins: 5
+    //     }
 
-    }
+    // }
 
     // Calendar component
     Component {
